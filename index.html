@@ -1,0 +1,1016 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>Electron: Beginner to Pro</title>
+
+  <meta name="description" content="SoCalCodeCamp: Electron: Beginner to Pro">
+  <meta name="author" content="Chris Griffith">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+
+  <style>
+    .reveal pre {
+      width: 100%;
+      font-size: .5em;
+    }
+    .twocolumn {
+       display: grid;
+       grid-template-columns: 1fr 1fr;
+       grid-gap: 10px;
+       text-align: left;
+      
+    }
+    
+    .twocolumn ul li {
+      font-size: .5em;
+    }
+    
+    td>img {border:none; margin:0; vertical-align: text-bottom;}
+    
+  </style>
+
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+    document.getElementsByTagName('head')[0].appendChild(link);
+
+  </script>
+
+  <!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+</head>
+
+<body>
+
+  <div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+      <section data-background-image="imgs/electron-dark.png">
+        <h1>Electron: Beginner to Pro</h1>
+        <h6>Build Cross Platform Desktop Apps using Github’s Electron</h6>
+        <p>
+          <small>@chrisgriffith</small>
+        </p>
+      </section>
+
+      <section>
+        <img src="imgs/author.jpg">
+      </section>
+
+      <section data-background-image="imgs/electron-dark.png">
+        <h2>What is Electron?</h2>
+        <ul>
+          <li>Released in July 2013 by Cheng Zhao</li>
+          <li>Foundation for GitHub Atom Editor</li>
+        </ul>
+      </section>
+
+      <section data-background-image="imgs/node.png">
+      </section>
+
+      <section data-background-image="imgs/chromium.png">
+      </section>
+
+      <section>
+        <h3>Built with Electron</h3>
+        <img src="imgs/apps.png" style="border:none">
+        <small><a href="https://electronjs.org/apps">electronjs.org/apps</a></small>
+      </section>
+
+      <section>
+        <h3>Electron's Features</h3>
+        <img src="imgs/features.png" style="border:none">
+        <ul>
+          <li>Automatic updates</li>
+          <li>Native menus &amp; notifications</li>
+          <li>Crash reporting</li>
+          <li>Debugging &amp; profiling</li>
+          <li>Windows installers</li>
+          <li>just a partial list…</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Platform Support</h3>
+        <img src="imgs/os.png" style="border:none">
+      </section>
+
+      <section>
+        <h3>How does Electron Work?</h3>
+        <img src="imgs/electron_parts.png" style="border:none">
+      </section>
+      
+      <section>
+        <h3>UI?</h3>
+        <img src="imgs/ui.png" style="border:none">
+      </section>
+
+      <section data-markdown>
+        <script type="text/template">
+          ## Installing Electron 
+          ``` 
+          npm install -g electron 
+          ```
+        </script>
+      </section>
+
+      <section data-markdown>
+        <script type="text/template">
+          ## Quick Start 
+          ``` 
+          git clone https://github.com/electron/electron-quick-start quick-start 
+          
+          cd quick-start 
+          
+          git init 
+          
+          npm start 
+          ```
+        </script>
+      </section>
+
+      <section>
+        <img src="imgs/hello-world.png" style="border:none">
+      </section>
+
+      <section data-markdown>
+        <script type="text/template">
+          ## Default File Struture
+          ``` 
+            index.html
+            LICENSE.md
+            main.js
+            package.json
+            README.md
+            renderer.js
+          ```
+        </script>
+      </section>
+      
+       <section data-markdown>
+        <script type="text/template">
+          ## Real World File Struture
+          ``` 
+            📁 app
+              main.js
+              splash.html
+              splash.png
+              📁 www
+            📁 build
+            📁 dist
+            📁 node_modules
+            package-lock.json
+            package.json
+          ```
+        </script>
+      </section>
+      
+      <section data-markdown>
+        <script type="text/template">
+          ## main.js
+          ``` 
+            const electron = require('electron')
+            // Module to control application life.
+            const app = electron.app
+            // Module to create native browser window.
+            const BrowserWindow = electron.BrowserWindow
+            const path = require('path')
+            const url = require('url')
+            
+            let mainWindow
+          ```
+        </script>
+      </section>
+      
+      <section data-markdown>
+        <script type="text/template">
+          ## createWindow
+          ``` 
+            function createWindow () {
+              // Create the browser window.
+              mainWindow = new BrowserWindow({width: 800, height: 600})
+              // and load the index.html of the app.
+              mainWindow.loadURL(url.format({
+                pathname: path.join(__dirname, 'index.html'),
+                protocol: 'file:',
+                slashes: true
+              }))
+              …
+          ```
+        </script>
+      </section>
+      
+      <section data-markdown>
+        <script type="text/template">
+          ## createWindow
+          ``` 
+              …
+              // Open the DevTools.
+              mainWindow.webContents.openDevTools()
+              
+              // Emitted when the window is closed.
+              mainWindow.on('closed', function () {
+                // Dereference the window object, usually you would store windows
+                // in an array if your app supports multi windows, this is the time
+                // when you should delete the corresponding element.
+                mainWindow = null
+              }) 
+            }
+          ```
+        </script>
+      </section>
+      
+      <section data-markdown>
+        <script type="text/template">
+          ## main.js
+          ``` 
+            // This method will be called when Electron has finished
+            // initialization and is ready to create browser windows.
+            // Some APIs can only be used after this event occurs.
+            app.on('ready', createWindow)
+          ```
+        </script>
+      </section>
+      
+      <section data-markdown>
+        <script type="text/template">
+          ## index.html
+          ``` 
+          …
+           <h1>Hello World!</h1>
+           <!-- All of the Node.js APIs are available in this renderer process. -->
+           We are using Node.js 
+           <script>document.write(process.versions.node) < /script>,
+           Chromium 
+           <script>document.write(process.versions.chrome) < /script>,
+           and Electron 
+           <script>document.write(process.versions.electron) < /script>.
+          …
+          ```
+        </script>
+      </section>
+      
+      <section data-markdown>
+        <script type="text/template">
+          ## index.html
+          ``` 
+          …
+           <script>
+           // You can also require other files to run in this process
+           require('./renderer.js')
+           < /script>
+          ```
+        </script>
+      </section>
+      
+      <section data-background-image="imgs/electron-dark.png">
+        <h2>Windows</h2>
+      </section>
+      
+      <section data-markdown>
+        <script type="text/template">
+          ## BrowserWindow
+          ``` 
+            mainWindow = new BrowserWindow({
+                   show: false,
+                   backgroundColor: "#FFF",
+                   width: 800,
+                   height: 600,
+                   minWidth: 800,
+                   maxWidth: 1024,
+                   minHeight: 600,
+                   maxHeight: 768,
+                   resizable: true,
+                   movable: true
+            })
+                    ```
+        </script>
+      </section>
+      
+      <section data-markdown>
+        <script type="text/template">
+          ## BrowserWindow
+          #### Addtional Properties
+          ``` 
+            mainWindow = new BrowserWindow({
+                   show: false,
+                   backgroundColor: "#FFF",
+                   width: 800,
+                   height: 600,
+                   minWidth: 800,
+                   maxWidth: 1024,
+                   minHeight: 600,
+                   maxHeight: 768,
+                   resizable: true,
+                   movable: true,
+                   alwaysOnTop: false, 
+                   title: "Goodbye, Moon?"
+            })
+                    ```
+        </script>
+      </section>
+      
+      <section data-markdown>
+        <script type="text/template">
+          ## Frameless Windows
+          ``` 
+            mainWindow = new BrowserWindow({
+                   show: false,
+                   backgroundColor: '#FFF',
+                   transparent: true,
+                   width: 800,
+                   height: 600,
+                   minWidth: 800,
+                   maxWidth: 1024,
+                   minHeight: 600,
+                   maxHeight: 768,
+                   resizable: true,
+                   movable: true,
+                   // frame: false,
+                   titleBarStyle: 'hidden'  //hidden-inset
+                   //  title: "Goodbye, Moon?",
+            })
+                    ```
+        </script>
+      </section>
+      
+      <section data-markdown>
+        <script type="text/template">
+          ## Transparent Windows
+          ``` 
+            mainWindow = new BrowserWindow({
+                   show: false,
+                   // backgroundColor: '#FFF',
+                   transparent: true,
+                   width: 800,
+                   height: 600,
+                   minWidth: 800,
+                   maxWidth: 1024,
+                   minHeight: 600,
+                   maxHeight: 768,
+                   resizable: true,
+                   movable: true,
+                   frame: false,
+                   transparent: true
+            })
+                    ```
+        </script>
+      </section>
+     
+      <section data-background-image="imgs/electron-dark.png">
+        <h2>Application Menu</h2>
+      </section>
+      
+      <section data-markdown>
+        <script type="text/template">
+          ## Menus
+          ``` 
+            const Menu = electron.Menu
+            
+            app.on('ready', function () {
+              const menu = Menu.buildFromTemplate(template)
+              Menu.setApplicationMenu(menu)
+              createWindow()
+            })
+          ```
+        </script>
+      </section>
+      
+      <section data-markdown>
+        <script type="text/template">
+          ## Menu Templates
+          ``` 
+            let template = [{
+              label: 'Menu 1',
+              submenu: [{
+                label: 'Menu item 1'
+              }]
+            }, {
+              label: 'Menu 2',
+              submenu: [{
+                label: 'Another Menu item'
+              }, {
+                label: 'One More Menu Item'
+              }]
+            }]
+          ```
+        </script>
+      </section>
+      
+      <section data-markdown>
+        <script type="text/template">
+          ## Menu Accelerators & Roles
+          ``` 
+            let template = [{
+              label: 'Edit App',
+              submenu: [{
+                label: 'Undo',
+                accelerator: 'CmdOrCtrl+Z',
+                role: 'undo'
+              }, {
+                label: 'Redo',
+                accelerator: 'Shift+CmdOrCtrl+Z',
+                role: 'redo'
+              }, {
+                type: 'separator'
+              }, {
+              ...
+          ```
+        </script>
+      </section>
+      
+      <section>
+        <img src="imgs/c5-4.png">
+      </section>
+      
+      <section data-background-image="imgs/electron-dark.png">
+        <h2>Contextual Menus</h2>
+      </section>
+      
+      <section data-markdown>
+        <script type="text/template">
+          ## Contextual Menu - renderer.js
+          ``` 
+            const { remote } = require('electron')
+            const { Menu } = remote
+            const myContextMenu = Menu.buildFromTemplate ([
+              { label: 'Cut', role: 'cut' },
+              { label: 'Copy', role: 'copy' },
+              { label: 'Paste', role: 'paste' },
+              { label: 'Select All', role: 'selectall' },
+              { type: 'separator' },
+              { label: 'Custom', click() { console.log('Custom Menu') } }
+            ])
+            
+            window.addEventListener('contextmenu', (event) => {
+                event.preventDefault()
+                myContextMenu.popup()
+            })
+          ```
+        </script>
+      </section>
+      
+      <section data-background-image="imgs/electron-dark.png">
+        <h2>Inter-Process Communication</h2>
+      </section>
+      
+      <section>
+         <h4>Inter-Process Communication</h4>
+        <img src="imgs/ipc.png">
+      </section>
+      
+      <section data-markdown>
+        <script type="text/template">
+          ## IPC Sync
+          ``` 
+            const ipc = require('electron').ipcRenderer
+            syncMsgBtn.addEventListener('click', function () {
+              const reply = ipc.sendSync('synchronous-message', 'Mr. Watson, come here.')
+            })
+            
+            const ipc = electron.ipcMain
+            ipc.on('synchronous-message', function (event, arg) {
+              event.returnValue = 'I heard you!'
+            })
+          ```
+        </script>
+      </section>
+      
+      <section data-markdown>
+        <script type="text/template">
+          ## IPC Async
+          ``` 
+            const ipc = require('electron').ipcRenderer
+            asyncMsgBtn.addEventListener('click', function () {
+              ipc.send('asynchronous-message', ''That's one small step for man')
+            })
+            ipc.on('asynchronous-reply', function (event, arg) {
+              const message = `Asynchronous message reply: ${arg}`
+              document.getElementById('asyncReply').innerHTML = message
+            })
+            
+            const ipc = electron.ipcMain
+            ipc.on('asynchronous-message', function (event, arg) {
+              if (arg === 'That’s one small step for man') {
+                event.sender.send('asynchronous-reply', ', one giant leap for mankind.')
+              }
+            })
+          ```
+        </script>
+      </section>
+            
+      <section data-background-image="imgs/electron-dark.png">
+        <h2>Native Dialogs</h2>
+      </section>
+      
+      <section data-background-image="imgs/electron-dark.png">
+        <h2>Dialog Types</h2>
+        <ul>
+          <li>File Open</li>
+            <li>File Save</li>
+          <li>Message Box</li>
+          <li>Error Box</li>
+        </ul>
+      </section>
+      
+      <section data-markdown>
+        <script type="text/template">
+          ## File Open
+          ``` 
+            const dialog = electron.dialog
+            
+            ipc.on('open-directory-dialog', function (event) {
+              dialog.showOpenDialog({
+                properties: ['openDirectory']
+              }, function (files) {
+                if (files) event.sender.send('selectedItem, files)
+              })
+            })
+          ```
+        </script>
+      </section>
+      
+      <section>
+        <img src="imgs/c7-1.png">
+      </section>
+      
+      <section data-background-image="imgs/electron-dark.png">
+        <h2>Dialog Properties</h2>
+        <ul>
+          <li>openFile</li>
+          <li>openDirectory</li>
+          <li>multiSelections</li>
+          <li>createDirectory</li>
+          <li>showHiddenFiles</li>
+          <li>promptToCreate (Windows Only)</li>
+        </ul>
+      </section>
+      
+      <section>
+        <img src="imgs/c7-5.png">
+      </section>
+      
+      <section data-background-image="imgs/electron-dark.png">
+        <h2>Message Boxes</h2>
+      </section>
+      
+      <section data-markdown>
+        <script type="text/template">
+          ## Message Box
+          ``` 
+            dialog.showMessageBox({
+              type: info,
+              buttons: ['Save', 'Cancel', 'Don\'t Save'],
+              defaultId: 0,
+              cancelId: 1,
+              title: 'Save Score',
+              message: 'Backup your score file?',
+              detail: 'Message detail'
+            })
+          ```
+        </script>
+      </section>
+      
+      <section data-background-image="imgs/electron-dark.png">
+        <h2>Dialog Types</h2>
+        <ul>
+          <li>info</li>
+          <li>error</li>
+          <li>question</li>
+          <li>none</li>
+        </ul>
+      </section>
+      
+      <section>
+        <img src="imgs/pc-messages-boxes.png">
+      </section>
+      
+      <section data-markdown>
+        <script type="text/template">
+          ## Custom Icons
+          ``` 
+            const nativeImage = electron.nativeImage
+            
+            let warningIcon= nativeImage.createFromPath('images/warning.png')
+            
+            dialog.showMessageBox({
+              type: info,
+              buttons: ['Save', 'Cancel', 'Don\'t Save'],
+              defaultId: 0,
+              cancelId: 1,
+              title: 'Save Score',
+              message: 'Backup your score file?',
+              detail: 'Message detail',
+              icon: warningIcon
+            })
+          ```
+        </script>
+      </section>
+        
+      <section>
+        <h2>WebContents Events</h2>
+        <div class="twocolumn">
+          <div>
+           <ul>
+              <li>before-input-event</li>
+              <li>certificate-error</li>
+              <li>context-menu</li>
+              <li>crashed</li>
+              <li>cursor-changed</li>
+              <li>destroyed</li>
+              <li>devtools-closed</li>
+              <li>devtools-focused</li>
+              <li>devtools-opened</li>
+              <li>devtools-reload-page</li>
+              <li>did-change-theme-color</li>
+              <li>did-fail-load</li>
+              <li>did-finish-load</li>
+              <li>did-frame-finish-load</li>
+              <li>did-get-response-details</li>
+              <li>did-get-redirect-request</li>
+              <li>did-navigate</li>
+              <li>did-navigate-in-page</li>
+            </ul>
+          </div>
+          <div>
+            <ul>      
+              <li>did-start-loading</li>
+              <li>did-stop-loading</li>
+              <li>dom-ready</li>
+              <li>found-in-page</li>
+              <li>login</li>
+              <li>media-started-playing</li>
+              <li>media-paused</li>
+              <li>new-window</li>
+              <li>page-favicon-updated</li>
+              <li>paint</li>
+              <li>plugin-crashed</li>
+              <li>select-client-certificate</li>
+              <li>select-bluetooth-device</li>
+              <li>update-target-url</li>
+              <li>will-attach-webview</li>
+              <li>will-navigate</li>
+              <li>will-prevent-unload</li>
+        </ul>   
+          </div>
+        </div>
+      </section>
+      
+      <section data-background-image="imgs/electron-dark.png">
+        <h2>Debugging Your Electron Application</h2>
+          <ul>
+        <li>Chromium’s Dev Tools</li></ul>
+      </section>
+      
+      <section data-background-image="imgs/electron-dark.png">
+        <h2>Debugging Renderer Process</h2>
+          <ul>
+            <li>Chromium’s Dev Tools</li>
+          </ul>
+      </section>
+      
+      <section data-background-image="imgs/electron-dark.png">
+        <h2>Debugging Main Process</h2>
+          <ul>
+            <li>VS Code's Tools</li>
+            <li>node-inspector</li>
+          </ul>
+      </section>
+      
+      <section>
+        <h3>Devtron</h3>
+        <p>An Electron DevTools extension to help you inspect, monitor, and debug your app.</p>
+        <img src="imgs/devtron.png">
+      </section>
+      
+      <section>
+        <h3>Testing with Spectron</h3>
+        <img src="imgs/spectron-logo.png" style="border:none">
+      </section>
+      
+      <section data-markdown>
+        <script type="text/template">
+          ## Installation
+          ``` 
+            npm install --save-dev spectron
+          ```
+        </script>
+      </section>
+      
+      <section data-markdown>
+        <script type="text/template">
+          ## Test Script
+          ``` 
+            npm install electron-builder  --save-dev
+          ```
+        </script>
+      </section>
+      
+      <section data-background-image="imgs/electron-dark.png">
+        <h2>Building Your Application</h2>
+      </section>
+      
+      <section data-markdown>
+        <script type="text/template">
+          ## Installation
+          ``` 
+            npm install electron-builder --save-dev
+          ```
+        </script>
+      </section>
+      
+      <section>
+        <h3>Adjusting your Build Directories</h3>
+        <img src="imgs/builder.png" >
+      </section>
+      
+      <section>
+        <table>
+          <thead>
+            <tr>
+              <th>Build Platforms</th>
+              <th>Descriptions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+             <td>--mac, -m, -o, --macos</td>
+             <td>Build for macOS</td>
+            </tr>
+            <tr>
+             <td>--win, -w, --windows</td>
+             <td>Build for Windows</td>
+            </tr>
+            <tr>
+             <td>--linux, -l</td>
+             <td>Build for Linux</td>
+            </tr>
+          </tbody>
+       
+          <thead>
+            <tr>
+              <th>Build Architectures</th>
+              <th>Descriptions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+             <td>--x64</td>
+             <td>Build for x64</td>
+            </tr>
+            <tr>
+             <td>--ia32</td>
+             <td>Build for ia32</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      
+      <section data-markdown>
+        <script type="text/template">
+          ## Updating the package.json file
+          ``` 
+            "scripts": {
+              "start": "electron .",
+              "dist": "build -mwl --x64 --ia32"
+            }
+          ```
+        </script>
+      </section>
+    
+      <section data-markdown>
+        <script type="text/template">
+          ## Updating the package.json file
+          ``` 
+            "build": {
+              "appId": "com.your-company.electron-app-name",
+              "copyright": "Copyright © 2017 YOUR-NAME",
+              "productName": "My Electron App",
+              "electronVersion": "1.4.1",
+              "mac": {
+                "category": "public.app-category.developer-tools"
+              },
+              "win": {
+                "target": [ "nsis" ]
+              },
+              "linux": {
+                "target": [ "AppImage", "deb"]
+              }
+            }
+          ```
+        </script>
+      </section>
+      
+      <section data-markdown>
+        <script type="text/template">
+          ## Updating the package.json file
+          ``` 
+            "main": "./app/main.js"
+          ```
+        </script>
+      </section>
+      
+       <section>
+        <h3>App Icons</h3>
+        <ul>
+          <li>16px</li>
+          <li>32px</li>
+          <li>128px</li>
+          <li>256px (OS X 10.5+)</li>
+          <li>512px (OS X 10.5+)</li>
+          <li>1024px (OS X 10.7+)</li>
+         </ul>
+      </section>
+      
+      <section>
+        <h3>Configuring the macOS DMG</h3>
+        <img src="imgs/dmg.png" >
+      </section>
+      
+      <section>
+        <h3>Configuring the Windows Installer</h3>
+        <img src="imgs/windows-installer.png" >
+      </section>
+      
+      <section data-background-image="imgs/electron-dark.png">
+        <h2>Auto-Updating</h2>
+      </section>
+      
+      <section>
+        <h2>Built-In</h2>
+        <table>
+          <thead>
+          <tr>
+          <th>Platform</th>
+          <th>Update Method</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>macOS</td>
+            <td>Squirrel.Mac</td>
+          </tr>
+          <tr>
+            <td>Windows</td>
+            <td>Squirrel</td>
+          </tr>
+          <tr>
+            <td>Linux</td>
+            <td>None</td>
+          </tr>
+            </tbody>
+        </table>
+      </section>
+      
+      <section data-markdown>
+        <script type="text/template">
+          ## electron-updater
+          Install electron-updater as an app dependency.
+          ``` 
+            npm i electron-updater
+          ```
+          Use autoUpdater from electron-updater instead of electron
+          ```
+            import { autoUpdater } from "electron-updater"
+          ```
+        </script>
+      </section>
+      
+      <section data-markdown>
+        <script type="text/template">
+          ## Update Events
+          ``` 
+            autoUpdater.on('checking-for-update', () => { })
+
+            autoUpdater.on('update-available', () => { })
+
+            autoUpdater.on('update-not-available', () => {})
+
+            autoUpdater.on('update-downloaded', () => {})
+
+            autoUpdater.on('error', (event, error) => {})
+          ```
+        </script>
+      </section>
+      
+       <section data-background-image="imgs/electron-dark.png">
+        <h2>Electron Forge</h2>
+         <p>A complete tool for building modern Electron applications.</p>
+         <p><a href="https://github.com/electron-userland/electron-forge">https://github.com/electron-userland/electron-forge</a></p>
+      </section>
+      <section data-background-image="imgs/electron-dark.png">
+       <img src="imgs/cover-small.png">
+      </section>
+      <section>
+        <h2>Thank You!</h2>
+         <table>
+          <tr>
+            <td style="border-bottom-width: 0"><img src="imgs/md-person.png" style="border:none; margin:0; vertical-align: text-bottom"></td>
+            <td>Chris Griffith</td>
+          </tr>
+           <tr>
+            <td style="border-bottom-width: 0"><img src="imgs/md-pin.png"  style="border:none; margin:0; vertical-align: text-bottom"></td>
+            <td>San Diego, CA</td>
+          </tr>
+           <tr>
+            <td style="border-bottom-width: 0"><img src="imgs/logo-twitter.png"  style="border:none; margin:0; vertical-align: text-bottom"></td>
+            <td>@chrisgriffith</td>
+          </tr>
+           <tr>
+            <td style="border-bottom-width: 0"><img src="imgs/logo-rss.png"  style="border:none; margin:0; vertical-align: text-bottom"></td>
+            <td>http://chrisgriffith.wordpress.com</td>
+          </tr>
+           <tr>
+            <td style="border-bottom-width: 0"><img src="imgs/logo-github.png"  style="border:none; margin:0; vertical-align: text-bottom"></td>
+            <td>https://github.com/chrisgriffith</td>
+          </tr>
+        </table>
+        
+      </section>
+      
+<!--
+      
+Wrap up
+-->
+     
+
+    </div>
+
+  </div>
+
+  <script src="lib/js/head.min.js"></script>
+  <script src="js/reveal.js"></script>
+
+  <script>
+    // More info https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      history: true,
+      center: true,
+
+      transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+      // More info https://github.com/hakimel/reveal.js#dependencies
+      dependencies: [{
+          src: 'lib/js/classList.js',
+          condition: function() {
+            return !document.body.classList;
+          }
+        },
+        {
+          src: 'plugin/markdown/marked.js',
+          condition: function() {
+            return !!document.querySelector('[data-markdown]');
+          }
+        },
+        {
+          src: 'plugin/markdown/markdown.js',
+          condition: function() {
+            return !!document.querySelector('[data-markdown]');
+          }
+        },
+        {
+          src: 'plugin/highlight/highlight.js',
+          async: true,
+          callback: function() {
+            hljs.initHighlightingOnLoad();
+          }
+        },
+        {
+          src: 'plugin/search/search.js',
+          async: true
+        },
+        {
+          src: 'plugin/zoom-js/zoom.js',
+          async: true
+        },
+        {
+          src: 'plugin/notes/notes.js',
+          async: true
+        }
+      ]
+    });
+
+  </script>
+
+</body>
+
+</html>
